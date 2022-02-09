@@ -26,6 +26,11 @@ public class StudentBean03Service {
         return listOfStudent.stream().filter(t -> t.getId() == id).findFirst().get();
     }
 
+    // tum student listi return eden method
+    public List<StudentBean03> getAllStudent(){
+        return listOfStudent;
+    }
+
 
 
 
