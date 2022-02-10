@@ -1,9 +1,7 @@
 package springBootStudy.basic_authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class StudentBean05controller {
@@ -20,4 +18,10 @@ public class StudentBean05controller {
 
         return stdSrvc.selectStudentById(id);
     }
+
+    @PutMapping(path = "/updateFullyStudentById/{id}")
+    public StudentBean05 updateFullStudentIdIle(@PathVariable Long id, @RequestBody StudentBean05 newStd){
+        return stdSrvc.updateFullyStudentById(id, newStd);
+    }
+
 }

@@ -11,7 +11,7 @@ public interface StudentBean05Repository extends JpaRepository<StudentBean05, Lo
     // vs bazi methodlari kullanmak icin extend edildi
 
 
-    Optional<StudentBean05> findStudentBean04ByEmail(String email);//e mail ile data bulan metod
+    Optional<StudentBean05> findStudentBean05ByEmail(String email);//e mail ile data bulan metod
 
 
 }

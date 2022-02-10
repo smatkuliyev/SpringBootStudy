@@ -26,10 +26,12 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //   super.configure(http);
-        http.authorizeRequests().   // Request'ler icin yetki sorgula (get post put patch delete)
+        http.
+                csrf().disable(). // ey springBoot "put delete patch post" calistir, sorumluluk benim, default ayarları kaldırdık.
+                authorizeRequests().   // Request'ler icin yetki sorgula (get post put patch delete)
                 antMatchers("/", "index", "/css/*", "/js/*").permitAll().  // antMatchers() method parametresindeki url'lere izin ver
                 // free sayfalari bu sekilde yapariz, antMatchers() and permitAll()
-                        anyRequest().       // her request icin
+                anyRequest().       // her request icin
                 authenticated().    // kullanici sorgula
                 and().              // neye gore
                 httpBasic();        // httpBasic'e gore
