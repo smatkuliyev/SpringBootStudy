@@ -3,6 +3,8 @@ package springBootStudy.basic_authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
+
 @RestController
 public class StudentBean05controller {
     private StudentBean05Service stdSrvc;//service layer' ulaÅŸmak iÃ§in obj create edildi
@@ -20,8 +22,23 @@ public class StudentBean05controller {
     }
 
     @PutMapping(path = "/updateFullyStudentById/{id}")
-    public StudentBean05 updateFullStudentIdIle(@PathVariable Long id, @RequestBody StudentBean05 newStd){
+    public StudentBean05 updateFullStudentIdIle(@PathVariable Long id, @RequestBody StudentBean05 newStd) {
         return stdSrvc.updateFullyStudentById(id, newStd);
+    }
+
+    @DeleteMapping(path = "/deleteStudentById/{id}")
+    public String deleteStdntById(@PathVariable Long id) {
+        return stdSrvc.deleteStudentById(id);
+    }
+
+    @PatchMapping(path = "/updatePartiallyStudentById/{id}")
+    public StudentBean05 updatePartiallyStdntById(@PathVariable Long id, @RequestBody StudentBean05 newStd){
+        return stdSrvc.updatePatchStudentById(id,newStd);
+    }
+
+    @PostMapping(path = "/addStudent")
+    public StudentBean05 addStdnt(@RequestBody StudentBean05 newStdnt) throws SQLException, ClassNotFoundException {
+        return stdSrvc.addStudent(newStdnt);
     }
 
 }

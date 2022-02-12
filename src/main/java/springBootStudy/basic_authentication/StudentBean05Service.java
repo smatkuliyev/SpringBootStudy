@@ -3,6 +3,7 @@ package springBootStudy.basic_authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -49,13 +50,13 @@ public class StudentBean05Service {
         3) email null olamaz -> exception
         4) email eski ve yeni ayni ise update etmemeli
          */
-        if (newStudent.getEmail()==null){
+        if (newStudent.getEmail() == null) {
             newStudent.setEmail("");
         }
         Optional<StudentBean05> emailOlanOgrc = studentRepo.findStudentBean05ByEmail(newStudent.getEmail());
         if (emailOlanOgrc.isPresent()) {
             throw new IllegalStateException("daha once bu email kullanildi");
-        } else if (!newStudent.getEmail().contains("@") && newStudent.getEmail()!="") {
+        } else if (!newStudent.getEmail().contains("@") && newStudent.getEmail() != "") {
             throw new IllegalStateException("email @ icermeli");
         } else if (newStudent.getEmail() == null) {
             throw new IllegalStateException("email zorunlu !");
@@ -72,7 +73,7 @@ public class StudentBean05Service {
          */
         if (Period.between(newStudent.getDob(), LocalDate.now()).isNegative()) {
             throw new IllegalStateException("hatali dob girdiniz");
-        } else if(!newStudent.getDob().equals(eskiOgrc.getDob())){
+        } else if (!newStudent.getDob().equals(eskiOgrc.getDob())) {
             eskiOgrc.setDob(newStudent.getDob());
         }
 
@@ -80,5 +81,74 @@ public class StudentBean05Service {
         return studentRepo.save(eskiOgrc);
     }
 
+    // ile ile data delete edecek
+    public String deleteStudentById(Long id) {
+        if (!studentRepo.existsById(id)) {
+            throw new IllegalStateException(id + " li ogrc bulunamadi");
+        }
+        studentRepo.deleteById(id);
+        ;
+
+        return "The " + id + " who has deleted from system";
+    }
+
+    //This method update objects partially
+    public StudentBean05 updatePatchStudentById(Long id, StudentBean05 newStudent) {
+        StudentBean05 existingStudentById = studentRepo.findById(id).orElseThrow(() -> new IllegalStateException(id + " li ogrenci yok"));
+
+        if (newStudent.getEmail() == null) {
+            newStudent.setEmail("");
+        }
+        Optional<StudentBean05> emailOlanOgrc = studentRepo.findStudentBean05ByEmail(newStudent.getEmail());
+        if (emailOlanOgrc.isPresent()) {
+            throw new IllegalStateException("daha once bu email kullanildi");
+        } else if (!newStudent.getEmail().contains("@") && newStudent.getEmail() != "") {
+            throw new IllegalStateException("email @ icermeli");
+        } else if (newStudent.getEmail() == null) {
+            throw new IllegalStateException("email zorunlu !");
+        } else if (!newStudent.getEmail().equals(existingStudentById.getEmail())) {
+            existingStudentById.setEmail(newStudent.getEmail());
+        } else {
+            throw new IllegalStateException("email ayni, update edilmez !");
+        }
+
+        return studentRepo.save(existingStudentById);
+    }
+
+
+    //this method creates new StudentObject
+    public StudentBean05 addStudent(StudentBean05 newStudent) throws ClassNotFoundException, SQLException {
+        //ogrc email datasi girilecek
+        Optional<StudentBean05> existingStudentByMail = studentRepo.findStudentBean05ByEmail(newStudent.getEmail());
+        if (existingStudentByMail.isPresent()) {
+            throw new IllegalStateException("This mail: " + newStudent.getEmail() + " has been used!");
+        }
+
+        //ogrc name datasi girilecek
+        if (newStudent.getName() == null) {
+            throw new IllegalStateException("Didnt entered name, please enter name!");
+        }
+
+        // yeni unique id datasi girilecek
+        /*
+        LOGIC : DB'de var olan max id get edip +1 hali yeni id olarak assign edilir
+         */
+        // db'ye JDBC connection yapacagiz
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys?serverTimezone=UTC","root","1234");
+        Statement st = con.createStatement();
+        // max id get icin SQL query komut yapacagiz
+        String sqlQueryMaxId = "select max(id) from students";
+        ResultSet result = st.executeQuery(sqlQueryMaxId); // normalde bir tane vermesi lazım, her ihtimala karsı while kullandik
+        Long maxId = 0L;
+        while (result.next()) {
+           maxId = result.getLong(1);
+        }
+        newStudent.setId(maxId + 1);
+        newStudent.setAge(newStudent.getAge());
+        newStudent.setErrMsg("Student has been added!");
+
+        return studentRepo.save(newStudent);
+    }
 
 }
