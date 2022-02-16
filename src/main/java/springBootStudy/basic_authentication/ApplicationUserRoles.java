@@ -22,9 +22,9 @@ public enum ApplicationUserRoles {// bir app'de sabit datalarin saklandigi yapid
         this.permissions = permissions;
     }
 
- //   public Set<ApplicationUserPermission> izinleriGetirenMethod() { // permissions obj data field(STUDENT_READ,STUDENT_WRITE) okumak icin get
- //       return permissions;
- //   }
+    //   public Set<ApplicationUserPermission> izinleriGetirenMethod() { // permissions obj data field(STUDENT_READ,STUDENT_WRITE) okumak icin get
+    //       return permissions;
+    //   }
 
 
     public Set<SimpleGrantedAuthority> izinOnayla() {

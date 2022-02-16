@@ -135,14 +135,14 @@ public class StudentBean05Service {
          */
         // db'ye JDBC connection yapacagiz
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys?serverTimezone=UTC","root","1234");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys?serverTimezone=UTC", "root", "1234");
         Statement st = con.createStatement();
         // max id get icin SQL query komut yapacagiz
         String sqlQueryMaxId = "select max(id) from students";
         ResultSet result = st.executeQuery(sqlQueryMaxId); // normalde bir tane vermesi lazım, her ihtimala karsı while kullandik
         Long maxId = 0L;
         while (result.next()) {
-           maxId = result.getLong(1);
+            maxId = result.getLong(1);
         }
         newStudent.setId(maxId + 1);
         newStudent.setAge(newStudent.getAge());

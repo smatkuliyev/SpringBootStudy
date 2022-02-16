@@ -24,7 +24,7 @@ public class StudentBean03 {
         this.name = name;
         this.email = email;
         this.dob = dob;
-        this.errMsg  = "parametreli cons calisti";
+        this.errMsg = "parametreli cons calisti";
     }
 
     public Long getId() {
@@ -60,10 +60,10 @@ public class StudentBean03 {
     }
 
     public Integer getAge() {
-        if (this.dob == null){
+        if (this.dob == null) {
             return null;
         }
-        return Period.between(this.dob,LocalDate.now()).getYears();
+        return Period.between(this.dob, LocalDate.now()).getYears();
     }
 
     public void setAge(Integer age) {

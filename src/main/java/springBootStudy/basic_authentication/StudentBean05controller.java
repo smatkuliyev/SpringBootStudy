@@ -27,16 +27,14 @@ public class StudentBean05controller {
 
     @GetMapping(path = "/selectAll")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_STUDENT')") //Bu method'u role a gore yetkilendir
-    public List<StudentBean05> selectAllStdnt(){
+    public List<StudentBean05> selectAllStdnt() {
         return stdSrvc.selectAllStudents();
     }
 
 
-
-
     @PutMapping(path = "/updateFullyStudentById/{id}")
     @PreAuthorize("hasAuthority('student:write')") //Bu method'u permission a gore yetkilendir
-    public StudentBean05 updateFullStudentIdIle(@PathVariable Long id,@Validated @RequestBody StudentBean05 newStd) {
+    public StudentBean05 updateFullStudentIdIle(@PathVariable Long id, @Validated @RequestBody StudentBean05 newStd) {
         return stdSrvc.updateFullyStudentById(id, newStd);
     }
 
@@ -48,8 +46,8 @@ public class StudentBean05controller {
 
     @PatchMapping(path = "/updatePartiallyStudentById/{id}")
     @PreAuthorize("hasAuthority('student:write')") //Bu method'u permission a gore yetkilendir
-    public StudentBean05 updatePartiallyStdntById(@PathVariable Long id,@Validated @RequestBody StudentBean05 newStd){
-        return stdSrvc.updatePatchStudentById(id,newStd);
+    public StudentBean05 updatePartiallyStdntById(@PathVariable Long id, @Validated @RequestBody StudentBean05 newStd) {
+        return stdSrvc.updatePatchStudentById(id, newStd);
     }
 
     @PostMapping(path = "/addStudent")

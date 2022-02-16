@@ -15,7 +15,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration // Class'i config olarak tanimlar
 @EnableWebSecurity
 // Tanimli oldugu class'da form based security yerine(basic authentication) configure(ayarlama) eder
-@EnableGlobalMethodSecurity(prePostEnabled = true)//Tanımlı oldg class'da  @PreAuthorize-->annato active etmek için kullanıldıgınn MUTLAKA KULLANILMALI
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+//Tanımlı oldg class'da  @PreAuthorize-->annato active etmek için kullanıldıgınn MUTLAKA KULLANILMALI
 //@PreAuthorize kullanılmazsa gerek yok
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -33,7 +34,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 csrf().disable(). // ey springBoot "put delete patch post" calistir, sorumluluk benim, default ayarları kaldırdık.
                 authorizeRequests().   // Request'ler icin yetki sorgula (get post put patch delete)
                 antMatchers("/", "index", "/css/*", "/js/*").permitAll().  // antMatchers() method parametresindeki url'lere izin ver
-             //   antMatchers("/**").hasRole(ApplicationUserRoles.ADMIN.name()). //homepage sonra tum sayfalara  SADECE ADMIN adindaki user kullanabilir
+                //   antMatchers("/**").hasRole(ApplicationUserRoles.ADMIN.name()). //homepage sonra tum sayfalara  SADECE ADMIN adindaki user kullanabilir
                 //ROLE BASED AUTH. sadece anlaminda bir komuttur
                 //Role auth permission auth ezer. role oldugu yerde permission calismaz.Sert bir security bariyeridir. gerekli oldg yerde kullanilmali ama permission auth
                 // free sayfalari bu sekilde yapariz, antMatchers() and permitAll()
